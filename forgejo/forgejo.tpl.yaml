@@ -1,0 +1,89 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/instance: forgejo
+    app.kubernetes.io/name: forgejo
+  name: ${NAMESPACE}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: forgejo
+  namespace: ${NAMESPACE}
+  labels:
+    app.kubernetes.io/name: forgejo
+spec:
+  containers:
+    - name: forgejo
+      image: codeberg.org/forgejo/forgejo:11
+      ports:
+        - containerPort: 3000
+          name: http
+        - containerPort: 22
+          name: ssh
+      volumeMounts:
+        - name: forgejo-storage
+          mountPath: /data
+        - name: timezone
+          mountPath: /etc/timezone
+          readOnly: true
+        - name: localtime
+          mountPath: /etc/localtime
+          readOnly: true
+  volumes:
+    - name: forgejo-storage
+      hostPath:
+        path: /storage/forgejo
+    - name: timezone
+      hostPath:
+        path: /etc/timezone
+        type: File
+    - name: localtime
+      hostPath:
+        path: /etc/localtime
+        type: File
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: forgejo
+  namespace: ${NAMESPACE}
+  labels:
+    app.kubernetes.io/name: forgejo
+spec:
+  selector:
+    app.kubernetes.io/name: forgejo
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: forgejo
+  namespace: ${NAMESPACE}
+  labels:
+    app.kubernetes.io/name: forgejo
+  annotations:
+    cert-manager.io/cluster-issuer: ca-issuer
+    nginx.ingress.kubernetes.io/proxy-body-size: 1000m
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - forgejo.${DOMAIN}
+      secretName: forgejo-cert
+  rules:
+    - host: forgejo.${DOMAIN}
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: forgejo
+                port:
+                  name: http

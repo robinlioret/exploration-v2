@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${KARGO_NAMESPACE}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kargo
+  namespace: ${NAMESPACE}
+spec:
+  project: default
+  destination:
+    namespace: ${KARGO_NAMESPACE}
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: ghcr.io/akuity/kargo-charts
+    chart: kargo
+    targetRevision: 1.7.2
+    helm:
+      valuesObject:
+        api:
+          host: kargo.${DOMAIN}
+          adminAccount:
+            passwordHash: \$2y\$10\$uRcZgQSm/LqDpXDmDWwKXuvxe801Y1/uJR2N/arcoQgrfjZi74qey
+            tokenSigningKey: B8QOaZjYpuzhd34gvxWgxz28RYPhVJOY
+            tokenTTL: 24h
+          cabundle:
+            configMapName: cabundle
+          tls:
+            enabled: false
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            tls:
+              selfSignedCert: false
+            annotations:
+              cert-manager.io/cluster-issuer: ca-issuer
+              ingress.kubernetes.io/ssl-redirect: !!str true
+              ingress.kubernetes.io/force-ssl-redirect: !!str true
+        controller:
+          logLevel: DEBUG
+          cabundle:
+            configMapName: cabundle
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cabundle
+  namespace: ${KARGO_NAMESPACE}
+data:
+  ${DOMAIN}.ca.cert: |
+$(cat ca/ca.crt | sed -E 's/^(.*)/    \1/')

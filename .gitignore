@@ -1,0 +1,12 @@
+# IDEs
+.vscode
+.idea
+*.iml
+
+# Sensitive & temporary files
+ca
+.env
+*.temp.*
+
+# System
+.directory

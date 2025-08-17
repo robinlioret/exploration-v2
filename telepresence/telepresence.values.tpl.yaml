@@ -1,0 +1,4 @@
+agent:
+  # Workaround existing restricting security context.
+  securityContext: {}
+  initSecurityContext: {}

@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/instance: container-registry
+    app.kubernetes.io/name: container-registry
+  name: ${NAMESPACE}
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: container-registry
+  namespace: ${NAMESPACE}
+  labels:
+    app.kubernetes.io/name: container-registry
+spec:
+  containers:
+    - name: container-registry
+      image: registry
+      ports:
+        - containerPort: 5000
+          name: registry
+      volumeMounts:
+        - name: container-registry-storage
+          mountPath: /var/lib/registry
+  volumes:
+    - name: container-registry-storage
+      hostPath:
+        path: /storage/container-registry
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: container-registry
+  namespace: ${NAMESPACE}
+  labels:
+    app.kubernetes.io/name: container-registry
+spec:
+  selector:
+    app.kubernetes.io/name: container-registry
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: registry
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: container-registry
+  namespace: ${NAMESPACE}
+  labels:
+    app.kubernetes.io/name: container-registry
+  annotations:
+    cert-manager.io/cluster-issuer: ca-issuer
+    nginx.ingress.kubernetes.io/proxy-body-size: 1000m
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - cr.${DOMAIN}
+      secretName: container-registry-cert
+  rules:
+    - host: cr.${DOMAIN}
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: container-registry
+                port:
+                  name: http
