@@ -4,7 +4,7 @@
 *.iml
 
 # Sensitive & temporary files
-ca
+pki
 .env
 *.temp.*
 

@@ -10,7 +10,7 @@ action_done
 
 action "Add ca-cert to the nodes"
 for node in $(kind get nodes --name "$CLUSTER_NAME"); do
-  cat ca/pki/ca.crt | docker exec -i "${node}" cp /dev/stdin "/usr/local/share/ca-certificates/ca.crt"
+  cat pki/ca.crt | docker exec -i "${node}" cp /dev/stdin "/usr/local/share/ca-certificates/ca.crt"
   docker exec -i "${node}" update-ca-certificates
   docker exec -i "${node}" systemctl restart containerd
 done
