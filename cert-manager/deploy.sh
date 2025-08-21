@@ -14,7 +14,7 @@ action_done
 
 action "Deploy cluster CA issuer and secret"
 kubectl create secret tls --namespace cert-manager ca-cert \
-  --cert=ca/ca.crt \
-  --key=ca/ca.key
+  --cert=ca/pki/ca.crt \
+  --key=ca/pki/private/ca.key
 render_file cert-manager/ca-issuer.tpl.yaml | kubectl apply --server-side -f -
 action_done

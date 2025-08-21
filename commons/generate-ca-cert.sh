@@ -3,14 +3,14 @@
 source commons/utils.sh
 
 action "Remove existing files"
-rm ca/ca.crt || true
-rm ca/ca.key || true
+test -d ca || mkdir ca
+rm -rf ca/* || true
 action_done
 
-action "Generate ca.key"
-openssl ecparam -name prime256v1 -genkey -noout -out ca/ca.key
-action_done
-
-action "Generate ca.crt"
-openssl req -new -x509 -sha256 -key ca/ca.key -out ca/ca.crt
+# From https://kubernetes.io/docs/tasks/administer-cluster/certificates/
+action "Generate pki and certificate"
+cd ca
+easyrsa init-pki
+easyrsa --batch "--req-cn=${DOMAIN}" build-ca nopass
+cd ..
 action_done

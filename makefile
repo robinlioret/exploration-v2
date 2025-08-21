@@ -15,9 +15,13 @@ redeploy: check-requirements
 	bash ./commons/destroy.sh
 	bash ./commons/deploy.sh $(filter-out $@,$(MAKECMDGOALS))
 
-.PHONY: generate-ca-cert
-generate-ca-cert:
+.PHONY: ca-cert
+ca-cert:
 	bash ./commons/generate-ca-cert.sh
+
+.PHONY: clear-storage
+clear-storage:
+	bash ./commons/clear-storage.sh
 
 %:
 	@:

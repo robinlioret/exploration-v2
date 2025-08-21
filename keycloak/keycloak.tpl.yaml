@@ -169,7 +169,16 @@ spec:
               mountPath: /var/lib/postgresql
       volumes:
         - name: postgres-data
-          emptyDir: {}
+          hostPath:
+            path: /storage/keycloak/postgresql
+        - name: timezone
+          hostPath:
+            path: /etc/timezone
+            type: File
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
+            type: File
 ---
 apiVersion: v1
 kind: Service

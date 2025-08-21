@@ -26,6 +26,7 @@ fn_test docker
 fn_test dig
 fn_test telepresence optional
 fn_test argocd optional
+fn_test easyrsa
 
 if ! $ALL_OK; then
   action_failed "There are missing requirements"
