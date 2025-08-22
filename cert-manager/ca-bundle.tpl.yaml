@@ -1,0 +1,12 @@
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: ca-store
+spec:
+  sources:
+    - useDefaultCAs: true
+    - inLine: |
+$(cat pki/ca.crt | sed 's/^/        /')
+  target:
+    configMap:
+      key: "ca-certificates.crt"

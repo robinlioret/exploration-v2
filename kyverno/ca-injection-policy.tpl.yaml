@@ -1,0 +1,29 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: add-ca-certificates-volume
+spec:
+  background: false
+  rules:
+    - name: add-ca-certificates
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      mutate:
+        foreach:
+          - list: "request.object.spec.containers"
+            patchStrategicMerge:
+              spec:
+                containers:
+                  - (name): "*"
+                    volumeMounts:
+                      - name: etc-ssl-certs
+                        mountPath: /etc/ssl/certs/ca-certificates.crt
+                        subPath: ca-certificates.crt
+                        readOnly: true
+                volumes:
+                  - name: etc-ssl-certs
+                    configMap:
+                      name: ca-store

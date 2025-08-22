@@ -7,6 +7,7 @@ if kubectl get namespaces | grep -q $NAMESPACE; then
   return 0
 fi
 
+# FIXME: Keycloak data persistency
 action "Deploy Keycloak"
 render_file "keycloak/keycloak.tpl.yaml" | kubectl apply --server-side -f -
 action_done

@@ -42,3 +42,9 @@ The available modules appears in the commons/deploy.sh script
 ## Note on persistency
 
 Amongst the variables there is `DIR`. This variable defines where, on the disk, the services should store their data (forgejo's repo, keycloak's db, registry's images...). You can clear it at any time (preferably not when the cluster is up) with `make clear-storage` or simply by deleting the `${DIR}/.exploration` directory.
+
+## Usefule documentation
+
+* CA certificate injection using trust-manager and kyverno
+
+https://medium.com/@ugomignon/injecting-certificates-into-kubernetes-workloads-64f00a5496dc

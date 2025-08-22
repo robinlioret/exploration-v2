@@ -9,6 +9,7 @@ echo "Done"
 source dns/deploy.sh
 source cluster/deploy.sh
 source cert-manager/deploy.sh
+source kyverno/deploy.sh
 source ingress-controller/deploy.sh
 
 # --- Optional modules
