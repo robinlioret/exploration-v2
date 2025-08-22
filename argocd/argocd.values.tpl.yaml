@@ -14,19 +14,6 @@ server:
 configs:
   cm:
     exec.enabled: true
-  tls:
-    certificates:
-      forgejo.${DOMAIN}: |
-        -----BEGIN CERTIFICATE-----
-        MIIBazCCARCgAwIBAgIQTy3AtZTgPk2hmNXjMuOZGjAKBggqhkjOPQQDAjAVMRMw
-        EQYDVQQDEwpEdW1teSBJbmMuMB4XDTI1MDUyMjA0NTE0OFoXDTI1MDgyMDA0NTE0
-        OFowFTETMBEGA1UEAxMKRHVtbXkgSW5jLjBZMBMGByqGSM49AgEGCCqGSM49AwEH
-        A0IABFhWLisgWJbbelt3lNUh87llkx3s5F5Ix5l2fwM0XUlLqxQVFWxo5qGOC/yh
-        e07dBcXLr2Q6CxMLLs3JtNKVsoKjQjBAMA4GA1UdDwEB/wQEAwICpDAPBgNVHRMB
-        Af8EBTADAQH/MB0GA1UdDgQWBBS/uBFT5jtyqUBncCG50Aifs+iIvDAKBggqhkjO
-        PQQDAgNJADBGAiEAr81rKPmzpbDtFPVvcFfyswWNh2y7tK8185WL+Q7jOg8CIQDG
-        bXwSQcxYUZZyNcR89BG5PDyrRnkxx37I1j7N/mN0xg==
-        -----END CERTIFICATE-----
   params:
     hydrator.enabled: true
   secret:

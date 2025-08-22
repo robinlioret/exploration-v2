@@ -18,7 +18,6 @@ has_flag registry && source container-registry/deploy.sh
 has_flag forgejo && source forgejo/deploy.sh
 has_flag argocd && source argocd/deploy.sh
 has_flag telepresence && source telepresence/deploy.sh
-has_flag keycloak && source keycloak/deploy.sh
 
 # Wave 2
 has_flag kargo && source kargo/deploy.sh
@@ -28,3 +27,4 @@ has_flag kargo && source kargo/deploy.sh
 # Wave 4
 
 # Wave 5
+has_flag keycloak && source keycloak/deploy.sh

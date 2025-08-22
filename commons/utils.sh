@@ -78,8 +78,13 @@ title "INIT"
 
 action "Load .env file"
 test -f .env && source .env
-echo "Done"
+action_done
 
 action "Load variables"
 source commons/variables.sh
-echo "Done"
+action_done
+
+action "Init .temp directory"
+test -d .temp || mkdir .temp
+rm -rf .temp/*
+action_done

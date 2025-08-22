@@ -88,7 +88,7 @@ spec:
             # Instruct JGroups which DNS hostname to use to discover other Keycloak nodes
             # Needs to be unique for each Keycloak cluster
             - name: JAVA_OPTS_APPEND
-              value: "-Djgroups.bind.address=$(POD_IP)"
+              value: "-Djgroups.bind.address=\$(POD_IP)"
             - name: "KC_DB_URL_DATABASE"
               value: "keycloak"
             - name: "KC_DB_URL_HOST"
