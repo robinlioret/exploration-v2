@@ -13,7 +13,7 @@ metadata:
 spec:
   ports:
     - protocol: TCP
-      port: 8080
+      port: 8443
       targetPort: http
       name: http
   selector:
@@ -54,10 +54,15 @@ spec:
       labels:
         app: keycloak
     spec:
+      volumes:
+        - name: tls
+          secret:
+            secretName: keycloak-cert
       containers:
         - name: keycloak
           image: quay.io/keycloak/keycloak:26.3.3
-          args: ["start"]
+          args:
+            - start
           env:
             - name: KC_BOOTSTRAP_ADMIN_USERNAME
               value: "admin"
@@ -70,8 +75,12 @@ spec:
             # from other sources than your proxy if you continue to use proxy headers.
             - name: KC_PROXY_HEADERS
               value: "xforwarded"
-            - name: KC_HTTP_ENABLED
-              value: "true"
+            # - name: KC_HTTP_ENABLED
+            #   value: "false"
+            - name: KC_HTTPS_CERTIFICATE_FILE
+              value: "/etc/tls/tls.crt"
+            - name: KC_HTTPS_CERTIFICATE_KEY_FILE
+              value: "/etc/tls/tls.key"
             # In this explorative setup, no strict hostname is set.
             # For production environments, set a hostname for a secure setup.
             - name: KC_HOSTNAME_STRICT
@@ -100,9 +109,13 @@ spec:
               value: "keycloak"
             - name: "KC_DB_USERNAME"
               value: "keycloak"
+          volumeMounts:
+            - name:  tls
+              readOnly: true
+              mountPath:  /etc/tls
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: 8443
           startupProbe:
             httpGet:
               path: /health/started
@@ -166,11 +179,11 @@ spec:
           volumeMounts:
             # Using volume mount for PostgreSQL's data folder as it is otherwise not writable
             - name: postgres-data
-              mountPath: /var/lib/postgresql
+              mountPath: /var/lib/postgresql/data
       volumes:
         - name: postgres-data
           hostPath:
-            path: /storage/keycloak/postgresql
+            path: /storage/keycloak/postgresql/data
         - name: timezone
           hostPath:
             path: /etc/timezone
@@ -203,6 +216,7 @@ metadata:
   namespace: ${NAMESPACE}
   annotations:
     cert-manager.io/cluster-issuer: ca-issuer
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   ingressClassName: nginx
   tls:
@@ -219,4 +233,4 @@ spec:
               service:
                 name: keycloak
                 port:
-                  number: 8080
+                  number: 8443

@@ -1,0 +1,9 @@
+data:
+  oidc.config: |
+    name: Keycloak
+    issuer: https://keycloak.${DOMAIN}/realms/master
+    clientID: argocd
+    clientSecret: \$oidc.keycloak.clientSecret
+    requestedScopes: ["openid", "profile", "email", "groups"]
+    rootCA: |
+$(cat pki/ca.crt | sed 's/^/      /')

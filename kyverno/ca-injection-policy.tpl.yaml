@@ -20,8 +20,9 @@ spec:
                   - (name): "*"
                     volumeMounts:
                       - name: etc-ssl-certs
-                        mountPath: /etc/ssl/certs/ca-certificates.crt
-                        subPath: ca-certificates.crt
+                        # mountPath: /etc/ssl/certs/$(echo $DOMAIN | sed 's/\./-/g').ca.crt
+                        mountPath: /etc/ssl/certs/ca.crt
+                        subPath: ca.crt
                         readOnly: true
                 volumes:
                   - name: etc-ssl-certs

@@ -14,6 +14,10 @@ server:
 configs:
   cm:
     exec.enabled: true
+  tls:
+    certificates:
+      forgejo.${DOMAIN}: |
+$(cat pki/ca.crt | sed 's/^/        /')
   params:
     hydrator.enabled: true
   secret:
