@@ -22,12 +22,12 @@ action "Pull CoreDNS image"
 docker pull coredns/coredns
 action_done
 
-action "Start Coredns"
+action "Start Coredns on port $DNS_PORT"
 docker run -d --name dns --restart=unless-stopped\
-  -p 53:53/tcp -p 53:53/udp \
+  -p $DNS_PORT:$DNS_PORT/tcp -p $DNS_PORT:$DNS_PORT/udp \
   -v "$DIR/dns/coredns.corefile":/etc/coredns/Corefile \
   -v "$DIR/dns/coredns.zonefile":/etc/coredns/db.sandbox.local \
-  coredns/coredns:latest -conf /etc/coredns/Corefile -dns.port 53
+  coredns/coredns:latest -conf /etc/coredns/Corefile -dns.port $DNS_PORT
 sleep 1
 action_done
 

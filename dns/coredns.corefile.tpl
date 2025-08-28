@@ -5,7 +5,7 @@
     health :8080
 }
 
-${DOMAIN}:53 {
+${DOMAIN}:${DNS_PORT} {
     log
     errors
     file /etc/coredns/db.${DOMAIN}

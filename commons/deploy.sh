@@ -6,6 +6,7 @@ action "Create temp dir at $DIR"
 test -d "$DIR" || mkdir -p "$DIR"
 echo "Done"
 
+# --- Main modules
 source dns/deploy.sh
 source cluster/deploy.sh
 source cert-manager/deploy.sh

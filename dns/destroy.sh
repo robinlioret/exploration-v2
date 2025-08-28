@@ -1,5 +1,5 @@
 title "DESTROY DNS"
-if docker ps | grep -qw dns; then
+if docker ps -a | grep -qw dns; then
   docker rm -fv dns
   action_done
 else

@@ -76,12 +76,12 @@ EOF
 
 title "INIT"
 
-action "Load .env file"
-test -f .env && source .env
-action_done
-
 action "Load variables"
 source commons/variables.sh
+action_done
+
+action "Load .env file"
+test -f .env && source .env
 action_done
 
 action "Init .temp directory"
