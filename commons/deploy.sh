@@ -4,7 +4,7 @@ source commons/utils.sh
 
 action "Create temp dir at $DIR"
 test -d "$DIR" || mkdir -p "$DIR"
-echo "Done"
+action_done
 
 # --- Main modules
 source dns/deploy.sh
@@ -30,3 +30,5 @@ has_flag kargo && source kargo/deploy.sh
 
 # Wave 5
 has_flag keycloak && source keycloak/deploy.sh
+
+title "Done"

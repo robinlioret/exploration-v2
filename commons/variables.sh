@@ -1,7 +1,7 @@
 MODULES="$@"
-DOMAIN=${DOMAIN:-sandbox.local}
-CLUSTER_NAME=${CLUSTER_NAME:-sandbox}
-CLUSTER_CONFIG=${CLUSTER_CONFIG:-simple}
-DIR=${DIR:-$HOME/.exploration}
-IP=${IP:-$(hostname -i | cut -d' ' -f1)}
-DNS_PORT=53
+DOMAIN="sandbox.local"
+CLUSTER_NAME="sandbox"
+CLUSTER_CONFIG="simple"
+DIR="$HOME/.exploration"
+IP="${IP:-$(hostname -i | cut -d' ' -f1)}"
+DNS_PORT="53"
