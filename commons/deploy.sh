@@ -29,6 +29,6 @@ has_flag kargo && source kargo/deploy.sh
 # Wave 4
 
 # Wave 5
-has_flag keycloak && source keycloak/deploy.sh
+# has_flag keycloak && source keycloak/deploy.sh # TODO: move out of Bitnami
 
 title "Done"

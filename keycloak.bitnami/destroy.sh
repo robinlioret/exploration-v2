@@ -9,5 +9,6 @@ else
 fi
 
 action "Clean removal"
-kubectl delete namespace ${NAMESPACE}
+# kubectl delete namespace ${NAMESPACE}
+helm uninstall --namespace ${NAMESPACE} keycloak
 action_done
