@@ -24,9 +24,10 @@ fn_test kubectl
 fn_test helm
 fn_test docker
 fn_test dig
+fn_test easyrsa
 fn_test telepresence optional
 fn_test argocd optional
-fn_test easyrsa
+fn_test harbor-cli optional
 
 if ! $ALL_OK; then
   action_failed "There are missing requirements"
