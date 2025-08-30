@@ -17,7 +17,6 @@ source ingress-controller/deploy.sh
 # Waves provides a very very basic dependency management
 # Wave 1
 has_flag registry && source container-registry/deploy.sh
-has_flag harbor && source harbor/deploy.sh
 has_flag forgejo && source forgejo/deploy.sh
 has_flag argocd && source argocd/deploy.sh
 has_flag telepresence && source telepresence/deploy.sh
