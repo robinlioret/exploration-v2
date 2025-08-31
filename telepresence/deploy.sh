@@ -1,5 +1,5 @@
-title "DEPLOY ARGOCD"
-NAMESPACE="argo"
+title "DEPLOY TELEPRESENCE"
+NAMESPACE="telepresence"
 
 if kubectl get namespaces | grep -q $NAMESPACE; then
   action_done "Namespace release detected. It seems to be installed already."
