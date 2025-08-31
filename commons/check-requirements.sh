@@ -6,11 +6,11 @@ ALL_OK=true
 
 fn_test() {
   if which $1 > /dev/null  2>&1; then
-    info "\t✅ $1" 
+    display --right "Detected ✅" --left "$1" -e "." -w $GLOBAL_MAX_WIDTH
   else if [[ "$2" = "optional" ]]; then
-      info "\t🟠 $1 not detected. Can be required by specific modules or is simply recommanded."
+      display --right "Not detected (Optional) 🟠" --left "$1" -e "." -w $GLOBAL_MAX_WIDTH
     else
-      info "\t❌ $1 not detected, please install it"
+      display --right "Missing ❌" --left "$1" -e "." -w $GLOBAL_MAX_WIDTH
       ALL_OK=false
     fi
   fi
@@ -27,7 +27,6 @@ fn_test dig
 fn_test easyrsa
 fn_test telepresence optional
 fn_test argocd optional
-fn_test harbor-cli optional
 
 if ! $ALL_OK; then
   action_failed "There are missing requirements"
