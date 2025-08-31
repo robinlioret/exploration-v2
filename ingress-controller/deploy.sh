@@ -7,6 +7,7 @@ if kubectl get namespaces | grep -q $NAMESPACE; then
   return 0
 fi
 
+action "Deploy nginx ingress controller"
 render_file "ingress-controller/ingress-controller.tpl.yaml" | kubectl apply --server-side -f -
 kubectl wait --for condition=ready --namespace $NAMESPACE \
   --selector app.kubernetes.io/name=ingress-nginx \
