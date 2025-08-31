@@ -54,6 +54,10 @@ display() {
     esac
   done
 
+  [[ ${#LEFT} = 1 ]] && LEFT=""
+  [[ ${#CENTER} = 1 ]] && CENTER=""
+  [[ ${#RIGHT} = 1 ]] && RIGHT=""
+
   EMPTY_CHARACTER_LEFT=${EMPTY_CHARACTER_LEFT:-$EMPTY_CHARACTER}
   EMPTY_CHARACTER_RIGHT=${EMPTY_CHARACTER_RIGHT:-$EMPTY_CHARACTER}
 
@@ -94,7 +98,7 @@ display() {
   printf "\n"
 }
 
-GLOBAL_MAX_WIDTH=80
+GLOBAL_MAX_WIDTH=$(( $(tput cols) - 5 ))
 
 info() {
   display --left "$@" -w $GLOBAL_MAX_WIDTH
@@ -119,6 +123,51 @@ action_failed() {
 
 action_skip() {
   display --left "$1" --right "Skipped ⚪" -e "."  -w $GLOBAL_MAX_WIDTH
+}
+
+
+check_requirement() {
+  COMMAND=""
+  OPTIONAL=false
+  URL=""
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      --command|-c)
+        COMMAND="$2"
+        shift 2
+        ;;
+      --optional|-o)
+        OPTIONAL=true
+        shift
+        ;;
+      --install-url|--url|-u)
+        URL="$2"
+        shift 2
+        ;;
+      -*)
+        echo "Unknown option $1"
+        return 1
+        ;;
+      *)
+        echo "Unknown argument $1"
+        return 1
+        ;;
+    esac
+  done
+  
+  which $COMMAND > /dev/null 2>&1 && DETECTED=true || DETECTED=false
+  if $DETECTED; then
+    display --left "$COMMAND ($URL)" --right "Detected ✅" -e "." -w $GLOBAL_MAX_WIDTH
+  else
+    if $OPTIONAL; then
+      display --left "$COMMAND ($URL)" --right "Optional 🟠" -e "." -w $GLOBAL_MAX_WIDTH
+    else
+      display --left "$COMMAND ($URL)" --right "Missing ❌" -e "." -w $GLOBAL_MAX_WIDTH
+      return 1
+    fi
+  fi
+
+  return 0
 }
 
 add_helm_repo() {
