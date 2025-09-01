@@ -12,6 +12,7 @@ source cluster/deploy.sh
 source cert-manager/deploy.sh
 source kyverno/deploy.sh
 source ingress-controller/deploy.sh
+source minio/deploy.sh
 
 # --- Optional modules
 # Waves provides a very very basic dependency management
