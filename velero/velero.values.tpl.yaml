@@ -11,21 +11,25 @@ configuration:
     - name: minio
       provider: aws
       bucket: backups
-      prefix: backups-storage
       default: true
+      caCert: $(cat pki/ca.crt | base64 -w 0)
       credential:
         name: minio-creds
         key: creds
+
       config:
         region: minio
         s3ForcePathStyle: true
         s3Url: https://minio.sandbox.local
-      caCert: $(cat pki/ca.crt | base64 -w 0)
-  volumeSnapshotLocation: [ ]
-#    - name: minio
-#      provider: aws
-#      credentials:
-#        name: minio-creds
-#        key: creds
-#      config:
-#        region: minio
+
+  volumeSnapshotLocation:
+    - name: minio
+      provider: aws
+      config:
+        region: minio
+
+      credentials:
+        name: minio-creds
+        key: creds
+
+deployNodeAgent: true

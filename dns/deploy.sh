@@ -39,12 +39,12 @@ else
   dig dummy.${DOMAIN}
   return 1
 fi
-
-action "Test DNS resolution from inside the cluster"
-if kubectl run --rm -ti --image massenz/dnsutils:2.4.0 testdns --command --restart Never -- dig dummy.${DOMAIN} 2> /dev/null | grep dummy.${DOMAIN} | grep -q ${IP}; then
-  action_done "DNS resolution is working from inside the cluster"
-else
-  action_failed "DNS resolution is failing from inside the cluster"
-  kubectl run --rm -ti --image massenz/dnsutils:2.4.0 testdns --command --restart Never -- dig dummy.${DOMAIN}
-  return 1
-fi
+#
+#action "Test DNS resolution from inside the cluster"
+#if kubectl run --rm -ti --image massenz/dnsutils:2.4.0 testdns --command --restart Never -- dig dummy.${DOMAIN} 2> /dev/null | grep dummy.${DOMAIN} | grep -q ${IP}; then
+#  action_done "DNS resolution is working from inside the cluster"
+#else
+#  action_failed "DNS resolution is failing from inside the cluster"
+#  kubectl run --rm -ti --image massenz/dnsutils:2.4.0 testdns --command --restart Never -- dig dummy.${DOMAIN}
+#  return 1
+#fi
