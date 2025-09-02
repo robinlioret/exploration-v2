@@ -16,6 +16,7 @@ source dns/deploy.sh
 
 # Wave 2
 source minio/deploy.sh
+source velero/deploy.sh
 
 # --- Optional modules
 # Waves provides a very very basic dependency management

@@ -1,0 +1,3 @@
+[default]
+aws_access_key_id = ${MINIO_ROOT_USER}
+aws_secret_access_key = ${MINIO_ROOT_PASSWORD}
