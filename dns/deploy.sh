@@ -22,7 +22,7 @@ action "Pull CoreDNS image"
 docker pull coredns/coredns
 action_done
 
-action "Start Coredns on port $DNS_PORT"
+action "Start Coredns on port $DNS_PORT. Should resolve to ${IP}"
 docker run -d --name dns --restart=unless-stopped\
   -p $DNS_PORT:$DNS_PORT/tcp -p $DNS_PORT:$DNS_PORT/udp \
   -v "$DIR/dns/coredns.corefile":/etc/coredns/Corefile \
@@ -31,11 +31,20 @@ docker run -d --name dns --restart=unless-stopped\
 sleep 1
 action_done
 
-action "Test DNS resolution"
+action "Test DNS resolution from localhost"
 if dig dummy.${DOMAIN} | grep dummy.${DOMAIN} | grep -q ${IP}; then
-  action_done "DNS resolution is working"
+  action_done "DNS resolution is working from localhost"
 else
-  action_failed "DNS resolution is failing"
+  action_failed "DNS resolution is failing from localhost"
   dig dummy.${DOMAIN}
+  return 1
+fi
+
+action "Test DNS resolution from inside the cluster"
+if kubectl run --rm -ti --image massenz/dnsutils:2.4.0 testdns --command --restart Never -- dig dummy.${DOMAIN} 2> /dev/null | grep dummy.${DOMAIN} | grep -q ${IP}; then
+  action_done "DNS resolution is working from inside the cluster"
+else
+  action_failed "DNS resolution is failing from inside the cluster"
+  kubectl run --rm -ti --image massenz/dnsutils:2.4.0 testdns --command --restart Never -- dig dummy.${DOMAIN}
   return 1
 fi

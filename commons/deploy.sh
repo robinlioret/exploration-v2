@@ -7,11 +7,11 @@ test -d "$DIR" || mkdir -p "$DIR"
 action_done
 
 # --- Main modules
-source dns/deploy.sh
 source cluster/deploy.sh
 source cert-manager/deploy.sh
 source kyverno/deploy.sh
 source ingress-controller/deploy.sh
+source dns/deploy.sh
 
 # --- Optional modules
 # Waves provides a very very basic dependency management

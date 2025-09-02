@@ -3,5 +3,5 @@ DOMAIN="sandbox.local"
 CLUSTER_NAME="sandbox"
 CLUSTER_CONFIG="simple"
 DIR="$HOME/.exploration"
-IP=$(hostname -i | cut -d' ' -f1)
+IP=$(ip a | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | head -n 1)
 DNS_PORT="53"
