@@ -5,3 +5,5 @@ CLUSTER_CONFIG="simple"
 DIR="$HOME/.exploration"
 IP=$(ip a | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | head -n 1)
 DNS_PORT="53"
+MINIO_ROOT_USER=minioadmin
+MINIO_ROOT_PASSWORD=minioadmin
