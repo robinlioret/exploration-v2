@@ -5,5 +5,3 @@ CLUSTER_CONFIG="simple"
 DIR="$HOME/.exploration"
 IP=$(hostname -i | cut -d' ' -f1)
 DNS_PORT="53"
-MINIO_ROOT_USER=minioadmin
-MINIO_ROOT_PASSWORD=minioadmin

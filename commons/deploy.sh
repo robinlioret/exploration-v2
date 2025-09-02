@@ -16,7 +16,6 @@ source ingress-controller/deploy.sh
 # --- Optional modules
 # Waves provides a very very basic dependency management
 # Wave 1
-has_flag registry && source minio/deploy.sh
 has_flag registry && source container-registry/deploy.sh
 has_flag forgejo && source forgejo/deploy.sh
 has_flag argocd && source argocd/deploy.sh

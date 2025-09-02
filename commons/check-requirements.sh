@@ -14,7 +14,6 @@ source dns/check-requirements.sh || ALL_OK=false
 source cluster/check-requirements.sh || ALL_OK=false
 source argocd/check-requirements.sh || ALL_OK=false
 source telepresence/check-requirements.sh || ALL_OK=false
-source minio/check-requirements.sh || ALL_OK=false
 
 title "RESULT"
 if $ALL_OK; then
