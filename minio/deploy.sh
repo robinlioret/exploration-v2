@@ -12,7 +12,7 @@ kubectl wait --for condition=ready --namespace $NAMESPACE \
   --selector app.kubernetes.io/name=minio \
   --timeout 180s \
   pod
-while true; do curl -I https://minio.sandbox.local/minio/health/live 2> /dev/null | head -n 1 | grep -q 200 && break; sleep 1; done
+while true; do curl -I https://minio.sandbox.local 2> /dev/null | head -n 1 | grep -q 400 && break; sleep 1; done
 action_done
 
 action "Create backups bucket"

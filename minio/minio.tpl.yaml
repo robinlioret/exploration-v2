@@ -41,6 +41,17 @@ spec:
           value: ${MINIO_ROOT_USER}
         - name: MINIO_ROOT_PASSWORD
           value: ${MINIO_ROOT_PASSWORD}
+      readinessProbe:
+        periodSeconds: 1
+        failureThreshold: 60
+        httpGet:
+          path: /minio/health/live
+          port: 9000
+      livenessProbe:
+        periodSeconds: 5
+        httpGet:
+          path: /minio/health/live
+          port: 9000
   volumes:
     - name: minio-storage
       hostPath:
