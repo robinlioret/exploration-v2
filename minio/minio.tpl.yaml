@@ -36,6 +36,11 @@ spec:
         - name: localtime
           mountPath: /etc/localtime
           readOnly: true
+      env:
+        - name: MINIO_ROOT_USER
+          value: ${MINIO_ROOT_USER}
+        - name: MINIO_ROOT_PASSWORD
+          value: ${MINIO_ROOT_PASSWORD}
   volumes:
     - name: minio-storage
       hostPath:
